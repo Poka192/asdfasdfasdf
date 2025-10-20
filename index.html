@@ -3,90 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>미니 카지노</title>
+    <title>Modern Casino UI</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="main-container">
-        <header>
-            <h1>미니 카지노</h1>
-            <div class="balance-container">
-                잔액: <span id="player-balance">5000</span> 원
-            </div>
-        </header>
+    <div class="background"></div>
 
-        <main>
-            <!-- 게임 로비 (처음 보이는 화면) -->
-            <div id="game-lobby" class="view active">
-                <h2>플레이할 게임을 선택하세요</h2>
-                <div class="game-list">
-                    <div class="game-choice" data-game="high-low">
-                        <h3>하이-로우 카드</h3>
-                        <p>다음 카드의 숫자를 예측하세요!</p>
-                    </div>
-                    <div class="game-choice" data-game="coin-flip">
-                        <h3>동전 던지기</h3>
-                        <p>동전의 앞/뒤를 맞추세요!</p>
-                    </div>
-                    <div class="game-choice" data-game="guess-number">
-                        <h3>숫자 추측</h3>
-                        <p>1-10 사이의 숫자를 맞추면 5배!</p>
-                    </div>
+    <header class="main-header">
+        <h1>C A S I N O</h1>
+        <div class="balance">
+            자산: <span id="player-balance">20000</span>원
+        </div>
+    </header>
+
+    <main id="app-container">
+        <!-- 게임 창들이 여기에 동적으로 추가될 공간 -->
+
+        <!-- 게임 1: 슬롯 머신 창 -->
+        <div class="game-window hidden" id="slots-window" style="top: 15%; left: 20%;">
+            <div class="window-header">
+                <span>🎰 슬롯 머신</span>
+                <button class="close-btn">×</button>
+            </div>
+            <div class="window-body">
+                <div class="slots">
+                    <div class="slot">?</div>
+                    <div class="slot">?</div>
+                    <div class="slot">?</div>
                 </div>
-            </div>
-
-            <!-- 하이-로우 게임 화면 -->
-            <div id="high-low-game" class="view hidden">
-                <h2>하이-로우 카드 게임</h2>
-                <button class="back-btn">← 로비로 돌아가기</button>
-                <div class="game-content">
-                    <div class="card-area">
-                        <p>현재 카드</p>
-                        <div class="card" id="hl-current-card">?</div>
-                    </div>
-                    <div class="bet-controls">
-                        <input type="number" id="hl-bet-amount" value="100" min="10">
-                        <button id="hl-higher-btn">더 높다</button>
-                        <button id="hl-lower-btn">더 낮다</button>
-                    </div>
-                    <p id="hl-result" class="result-message"></p>
+                <div class="controls">
+                    <input type="number" class="bet-input" value="100">
+                    <button class="play-btn">SPIN</button>
                 </div>
+                <p class="result-text"></p>
             </div>
+        </div>
 
-            <!-- 동전 던지기 게임 화면 -->
-            <div id="coin-flip-game" class="view hidden">
-                <h2>동전 던지기</h2>
-                <button class="back-btn">← 로비로 돌아가기</button>
-                <div class="game-content">
-                    <div id="coin" class="coin-area">앞</div>
-                    <div class="bet-controls">
-                        <input type="number" id="cf-bet-amount" value="100" min="10">
-                        <button id="cf-heads-btn">앞면</button>
-                        <button id="cf-tails-btn">뒷면</button>
-                    </div>
-                    <p id="cf-result" class="result-message"></p>
+        <!-- 게임 2: 하이-로우 카드 창 -->
+        <div class="game-window hidden" id="highlow-window" style="top: 25%; left: 45%;">
+            <div class="window-header">
+                <span>🃏 하이-로우</span>
+                <button class="close-btn">×</button>
+            </div>
+            <div class="window-body">
+                <p>현재 카드</p>
+                <div class="card-display">?</div>
+                <div class="controls">
+                    <input type="number" class="bet-input" value="100">
+                    <button class="play-btn higher">▲ HIGHER</button>
+                    <button class="play-btn lower">▼ LOWER</button>
                 </div>
+                <p class="result-text"></p>
             </div>
+        </div>
+    </main>
 
-            <!-- 숫자 추측 게임 화면 -->
-            <div id="guess-number-game" class="view hidden">
-                <h2>숫자 추측 (1-10)</h2>
-                <button class="back-btn">← 로비로 돌아가기</button>
-                <div class="game-content">
-                    <p>1부터 10 사이의 숫자를 맞춰보세요! (5배 보상)</p>
-                    <div class="bet-controls">
-                        <input type="number" id="gn-guess" placeholder="숫자 입력" min="1" max="10">
-                        <input type="number" id="gn-bet-amount" placeholder="베팅액" value="100" min="10">
-                        <button id="gn-submit-btn">도전!</button>
-                    </div>
-                    <p id="gn-result" class="result-message"></p>
-                </div>
-            </div>
-
-        </main>
-    </div>
+    <footer class="dock">
+        <button class="game-launcher" data-window-id="slots-window">🎰</button>
+        <button class="game-launcher" data-window-id="highlow-window">🃏</button>
+    </footer>
 
     <script src="script.js"></script>
 </body>
 </html>
+
