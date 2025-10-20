@@ -1,108 +1,130 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
 
+:root {
+    --primary-bg: #1a2a3a;
+    --secondary-bg: #2c3e50;
+    --text-color: #ecf0f1;
+    --accent-color: #3498db;
+    --win-color: #2ecc71;
+    --loss-color: #e74c3c;
+    --highlight-color: #f1c40f;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: 'Noto Sans KR', sans-serif;
-    background-color: #1a2a3a;
-    color: #ecf0f1;
+    background-color: var(--primary-bg);
+    color: var(--text-color);
+}
+
+.main-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: var(--secondary-bg);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    min-height: 100vh;
-    margin: 0;
-}
-
-.game-container {
-    background-color: #2c3e50;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    width: 90%;
-    max-width: 400px;
-}
-
-h1 {
-    color: #3498db;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--accent-color);
     margin-bottom: 20px;
 }
 
-.balance-info {
+.balance-container {
     font-size: 1.2em;
     font-weight: bold;
 }
 
-#balance {
-    color: #f1c40f;
+#player-balance {
+    color: var(--highlight-color);
 }
 
-.card-area {
-    margin: 25px 0;
+/* --- 로비 스타일 --- */
+.game-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
 }
 
-.card {
-    width: 100px;
-    height: 150px;
-    background-color: white;
-    color: #2c3e50;
-    border-radius: 10px;
-    border: 2px solid #bdc3c7;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 4em;
-    font-weight: bold;
-    margin: 10px auto;
+.game-choice {
+    background-color: #34495e;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.bet-controls, .action-buttons {
+.game-choice:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.game-choice h3 {
+    color: var(--accent-color);
+    margin-bottom: 10px;
+}
+
+/* --- 게임 화면 공통 스타일 --- */
+.view h2 {
+    text-align: center;
     margin-bottom: 20px;
 }
 
-label {
-    margin-right: 10px;
+.back-btn {
+    background: none;
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.game-content {
+    background-color: #34495e;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.bet-controls {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 input[type="number"] {
-    width: 80px;
-    padding: 8px;
+    padding: 10px;
     border-radius: 5px;
     border: 1px solid #7f8c8d;
-    background-color: #34495e;
+    background-color: var(--primary-bg);
     color: white;
-    font-size: 1em;
+    width: 120px;
 }
 
 button {
-    padding: 12px 20px;
-    font-size: 1em;
-    font-weight: bold;
+    padding: 10px 20px;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
+    background-color: var(--accent-color);
+    color: white;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.1s;
-    margin: 5px;
-}
-
-#higher-btn {
-    background-color: #2ecc71; /* Green */
-    color: white;
-}
-
-#higher-btn:hover {
-    background-color: #27ae60;
-}
-
-#lower-btn {
-    background-color: #e74c3c; /* Red */
-    color: white;
-}
-
-#lower-btn:hover {
-    background-color: #c0392b;
-}
-
-button:active {
-    transform: scale(0.98);
+    transition: background-color 0.2s;
 }
 
 button:disabled {
@@ -110,34 +132,36 @@ button:disabled {
     cursor: not-allowed;
 }
 
-#play-again-btn {
-    background-color: #3498db;
-    color: white;
-}
-
-#play-again-btn:hover {
+button:hover:not(:disabled) {
     background-color: #2980b9;
 }
 
-
-#result-message {
+.result-message {
     font-size: 1.2em;
     font-weight: bold;
-    min-height: 25px; /* 메시지가 없을 때 레이아웃이 깨지지 않도록 */
+    min-height: 30px;
+}
+.win { color: var(--win-color); }
+.loss { color: var(--loss-color); }
+.draw { color: var(--highlight-color); }
+
+
+/* --- 게임별 특수 스타일 --- */
+.card {
+    width: 100px; height: 150px; background-color: white;
+    color: #2c3e50; border-radius: 10px; display: flex;
+    justify-content: center; align-items: center; font-size: 4em;
+    font-weight: bold; margin: 10px auto;
 }
 
-.win {
-    color: #2ecc71;
+#coin {
+    width: 120px; height: 120px; background-color: var(--highlight-color);
+    color: var(--primary-bg); border-radius: 50%; display: flex;
+    justify-content: center; align-items: center; font-size: 2em;
+    font-weight: bold; margin: 10px auto; border: 5px solid #c8a31e;
+    transition: transform 0.5s;
 }
 
-.loss {
-    color: #e74c3c;
-}
-
-.draw {
-    color: #f1c40f;
-}
-
-.hidden {
-    display: none;
-}
+/* --- 뷰 전환 --- */
+.hidden { display: none; }
+.active { display: block; }
