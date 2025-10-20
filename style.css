@@ -1,167 +1,141 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 :root {
-    --primary-bg: #1a2a3a;
-    --secondary-bg: #2c3e50;
-    --text-color: #ecf0f1;
-    --accent-color: #3498db;
-    --win-color: #2ecc71;
-    --loss-color: #e74c3c;
-    --highlight-color: #f1c40f;
+    --primary-color: #ff3cac;
+    --secondary-color: #784ba0;
+    --tertiary-color: #2b86c5;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+* { box-sizing: border-box; }
 
 body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background-color: var(--primary-bg);
-    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    color: white;
 }
 
-.main-container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: var(--secondary-bg);
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+.background {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--tertiary-color));
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    z-index: -1;
 }
 
-header {
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.main-header {
+    padding: 15px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 20px;
-    border-bottom: 2px solid var(--accent-color);
-    margin-bottom: 20px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-.balance-container {
-    font-size: 1.2em;
-    font-weight: bold;
+.balance {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
 }
 
-#player-balance {
-    color: var(--highlight-color);
-}
+#player-balance { color: #4eff8b; }
 
-/* --- 로비 스타일 --- */
-.game-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-}
-
-.game-choice {
-    background-color: #34495e;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.game-choice:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-}
-
-.game-choice h3 {
-    color: var(--accent-color);
-    margin-bottom: 10px;
-}
-
-/* --- 게임 화면 공통 스타일 --- */
-.view h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.back-btn {
-    background: none;
-    border: 1px solid var(--text-color);
-    color: var(--text-color);
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px;
-}
-
-.game-content {
-    background-color: #34495e;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-}
-
-.bet-controls {
-    margin: 20px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-input[type="number"] {
+.dock {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
     padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #7f8c8d;
-    background-color: var(--primary-bg);
-    color: white;
-    width: 120px;
+    display: flex;
+    gap: 10px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 
-button {
-    padding: 10px 20px;
+.game-launcher {
+    background: none;
     border: none;
-    border-radius: 5px;
-    background-color: var(--accent-color);
-    color: white;
-    font-weight: bold;
+    font-size: 2.5em;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: transform 0.2s;
+}
+.game-launcher:hover { transform: scale(1.2); }
+
+.game-window {
+    position: absolute;
+    width: 380px;
+    background: rgba(20, 20, 20, 0.5);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 10;
 }
 
-button:disabled {
-    background-color: #7f8c8d;
-    cursor: not-allowed;
+.game-window.hidden {
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none;
 }
 
-button:hover:not(:disabled) {
-    background-color: #2980b9;
+.window-header {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 12px 12px 0 0;
+    user-select: none;
 }
+.window-header span { font-weight: 600; }
 
-.result-message {
-    font-size: 1.2em;
-    font-weight: bold;
-    min-height: 30px;
+.close-btn {
+    background: #ff5f56;
+    border: none;
+    width: 15px; height: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: transparent;
+    transition: color 0.2s;
 }
-.win { color: var(--win-color); }
-.loss { color: var(--loss-color); }
-.draw { color: var(--highlight-color); }
+.close-btn:hover { color: #5e0000; font-weight: bold; }
 
-
-/* --- 게임별 특수 스타일 --- */
-.card {
-    width: 100px; height: 150px; background-color: white;
-    color: #2c3e50; border-radius: 10px; display: flex;
-    justify-content: center; align-items: center; font-size: 4em;
-    font-weight: bold; margin: 10px auto;
+.window-body {
+    padding: 20px;
+    text-align: center;
 }
-
-#coin {
-    width: 120px; height: 120px; background-color: var(--highlight-color);
-    color: var(--primary-bg); border-radius: 50%; display: flex;
-    justify-content: center; align-items: center; font-size: 2em;
-    font-weight: bold; margin: 10px auto; border: 5px solid #c8a31e;
-    transition: transform 0.5s;
+.controls { margin: 15px 0; display: flex; justify-content: center; gap: 10px; }
+.bet-input {
+    width: 80px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2);
+    color: white; padding: 8px; border-radius: 5px; text-align: center;
 }
+.play-btn {
+    padding: 8px 15px; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    border: none; color: white; border-radius: 5px; font-weight: 600; cursor: pointer;
+}
+.play-btn:disabled { background: #555; cursor: not-allowed; }
+.result-text { min-height: 24px; font-weight: 600; }
+.win { color: #4eff8b; }
+.lose { color: #ff5f56; }
 
-/* --- 뷰 전환 --- */
-.hidden { display: none; }
-.active { display: block; }
+/* 게임별 스타일 */
+.slots { display: flex; justify-content: center; gap: 10px; }
+.slot { width: 70px; height: 70px; background: white; color: black; font-size: 2.5em; display: flex; justify-content: center; align-items: center; border-radius: 8px;}
+.card-display { width: 100px; height: 140px; background: white; color: black; font-size: 4em; display: flex; justify-content: center; align-items: center; border-radius: 8px; margin: 10px auto; font-weight: bold; }
